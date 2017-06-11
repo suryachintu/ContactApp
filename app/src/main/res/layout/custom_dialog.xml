@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <View
+        android:id="@+id/empty_view"
+        android:layout_width="match_parent"
+        android:layout_height="96dp"
+        android:background="@color/empty_bg"/>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/contact_image"
+        android:layout_width="@dimen/contact_image_params"
+        android:layout_height="@dimen/contact_image_params"
+        android:layout_marginStart="@dimen/marginstart"
+        android:layout_marginEnd="@dimen/marginstart"
+        android:layout_marginTop="@dimen/name_margin"
+        android:src="@android:color/black"/>
+
+    <TextView
+        android:id="@+id/contact_letter"
+        android:layout_width="@dimen/contact_image_params"
+        android:layout_height="@dimen/contact_image_params"
+        android:layout_marginStart="@dimen/marginstart"
+        android:layout_marginEnd="@dimen/marginstart"
+        android:layout_marginTop="@dimen/name_margin"
+        android:background="@drawable/contact_letter_bg"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:gravity="center"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/contact_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="Username"
+        android:layout_marginStart="@dimen/name_margin"
+        android:layout_marginLeft="@dimen/name_margin"
+        android:layout_marginTop="@dimen/name_margin"
+        android:maxLines="1"
+        android:textColor="@android:color/white"/>
+
+    <RadioGroup
+        android:id="@+id/number_radio_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/marginstart"
+        android:layout_marginEnd="@dimen/marginstart"
+        android:layout_marginTop="@dimen/radio_margintop"
+        android:layout_marginBottom="@dimen/contact_image_params"
+        android:orientation="vertical">
+    </RadioGroup>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="end"
+        android:layout_gravity="bottom"
+        android:layout_marginTop="@dimen/marginstart">
+
+        <Button
+            android:id="@+id/cancel_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cancel"
+            style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"/>
+
+        <Button
+            android:id="@+id/ok_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ok"
+            android:layout_marginStart="@dimen/marginstart"
+            android:layout_marginLeft="@dimen/marginstart"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"/>
+
+    </LinearLayout>
+
+</FrameLayout>

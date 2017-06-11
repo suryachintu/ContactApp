@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="marginstart">16dp</dimen>
+    <dimen name="name_margin">72dp</dimen>
+    <dimen name="contact_image_params">48dp</dimen>
+    <dimen name="radio_margintop">128dp</dimen>
+</resources>
