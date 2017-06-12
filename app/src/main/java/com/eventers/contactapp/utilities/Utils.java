@@ -1,10 +1,11 @@
-package com.eventers.contactapp;
+package com.eventers.contactapp.utilities;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v4.app.FragmentActivity;
 
+import com.eventers.contactapp.R;
 import com.eventers.contactapp.data.ContactsDBHelper;
 import com.eventers.contactapp.data.DBContract;
 
@@ -31,6 +32,8 @@ public class Utils {
         }
     }
 
+
+    /*Helper method to add the contact to the database*/
     public static void addToDatabase(Context context, String id, String finalName, String number) {
 
         ContactsDBHelper dbHelper = new ContactsDBHelper(context);
@@ -46,6 +49,7 @@ public class Utils {
         System.out.println("Inserted :" + rowId);
     }
 
+    /*Helper method to rempve the contact from the database*/
     public static void removeFromDatabase(Context context, String id) {
 
         ContactsDBHelper dbHelper = new ContactsDBHelper(context);

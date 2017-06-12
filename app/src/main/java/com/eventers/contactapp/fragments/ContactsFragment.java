@@ -1,11 +1,8 @@
-package com.eventers.contactapp;
+package com.eventers.contactapp.fragments;
 
-import android.annotation.SuppressLint;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
-import android.database.DatabaseUtils;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -18,17 +15,19 @@ import android.support.v4.content.Loader;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.eventers.contactapp.adapter.ContactsAdapter;
+import com.eventers.contactapp.R;
+import com.eventers.contactapp.utilities.Utils;
 
 import java.util.ArrayList;
 
@@ -41,7 +40,7 @@ import io.michaelrocks.libphonenumber.android.Phonenumber;
  * Created by surya on 11/6/17.
  */
 
-public class ContactsFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>,ContactsAdapter.ItemClickListener{
+public class ContactsFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>,ContactsAdapter.ItemClickListener {
 
 
     private static final String TAG = ContactsFragment.class.getSimpleName();
@@ -55,7 +54,6 @@ public class ContactsFragment extends Fragment implements LoaderManager.LoaderCa
     private String[] projection    = new String[] { ContactsContract.Contacts._ID,
             ContactsContract.Contacts.DISPLAY_NAME_PRIMARY, ContactsContract.Contacts.LOOKUP_KEY, ContactsContract.Contacts.PHOTO_URI};
     private PhoneNumberUtil phoneUtil;
-
 
     public ContactsFragment() {
 
@@ -86,34 +84,32 @@ public class ContactsFragment extends Fragment implements LoaderManager.LoaderCa
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-
-        Log.e(TAG,"Oncreate loader");
-        return new CursorLoader(getActivity(), ContactsContract.Contacts.CONTENT_URI, projection, null,null, null);
+        String sortOrder = ContactsContract.Contacts.DISPLAY_NAME + " ASC";
+        return new CursorLoader(getActivity(), ContactsContract.Contacts.CONTENT_URI, projection, null,null, sortOrder);
     }
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-
-        DatabaseUtils.dumpCursor(data);
         mContactsAdapter.swapCursor(data);
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-        Log.e(TAG,"Loader reset");
+        mContactsAdapter.swapCursor(null);
     }
 
     @Override
     public void onItemClick(final String id, final ContactsAdapter.ViewHolder vh) {
 
+        //get the list of phone numbers
         Cursor cursor = getActivity().getContentResolver().query(
                 ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
                 null,
                 ContactsContract.CommonDataKinds.Phone.CONTACT_ID +" = ?",
                 new String[]{id}, null);
 
-        DatabaseUtils.dumpCursor(cursor);
-        ArrayList<String> phoneNumbers = new ArrayList<>();
+        ArrayList<String> phoneNumbers = new ArrayList<>();//a list containing the phone numbers
+
         if (cursor == null)
             return;
 
@@ -128,6 +124,7 @@ public class ContactsFragment extends Fragment implements LoaderManager.LoaderCa
 
             String number = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
 
+            //check for duplicate contacts and valid numbers
             try {
                 Phonenumber.PhoneNumber x = phoneUtil.parse(number,"IN");
                 if (phoneUtil.isValidNumber(x)) {
@@ -141,9 +138,10 @@ public class ContactsFragment extends Fragment implements LoaderManager.LoaderCa
         }
         cursor.close();
 
-
+        //If contact contains only one number then dont show the dialog
         if (phoneNumbers.size() == 1){
             vh.mCheckBox.setChecked(true);
+            Utils.addToDatabase(getActivity(),id, name,phoneNumbers.get(0));
             return;
         }else if (phoneNumbers.size() == 0)
             Toast.makeText(getActivity(), getString(R.string.no_number_available), Toast.LENGTH_SHORT).show();
@@ -163,7 +161,6 @@ public class ContactsFragment extends Fragment implements LoaderManager.LoaderCa
         Button okBtn = (Button)dialog.findViewById(R.id.ok_btn);
         contactName.setText(name != null ? name : getString(R.string.unknown));
 
-        System.out.println(imageUri + "*" + name);
         if (imageUri!= null) {
             contactImage.setImageURI(Uri.parse(imageUri));
             contactImage.setVisibility(View.VISIBLE);
@@ -183,6 +180,7 @@ public class ContactsFragment extends Fragment implements LoaderManager.LoaderCa
             contactLetter.setVisibility(View.VISIBLE);
         }
 
+        //Adding radiobuttons to radiogroup
         for (int i = 0; i < phoneNumbers.size(); i++) {
             RadioButton radioButton = new RadioButton(getActivity());
             radioButton.setText(phoneNumbers.get(i));
@@ -227,6 +225,8 @@ public class ContactsFragment extends Fragment implements LoaderManager.LoaderCa
 
     }
 
+
+    /*Helper method to check for the duplicate contacts using linear search*/
     private boolean checkForDuplicates(ArrayList<String> phoneNumbers, String number) {
 
         if (phoneNumbers.size() == 0)

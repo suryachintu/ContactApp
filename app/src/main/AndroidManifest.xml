@@ -3,7 +3,7 @@
     package="com.eventers.contactapp">
 
     <uses-permission android:name="android.permission.READ_CONTACTS" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -12,14 +12,24 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ContactsActivity"></activity>
+        <activity android:name=".activities.ContactsActivity"
+            android:label="Available Contacts"/>
+        <activity
+            android:name=".activities.SelectedConatcs"
+            android:label="@string/title_activity_selected_conatcs"
+            android:parentActivityName=".activities.ContactsActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.eventers.contactapp.activities.ContactsActivity" />
+        </activity>
     </application>
 
 </manifest>

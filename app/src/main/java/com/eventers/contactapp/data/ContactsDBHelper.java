@@ -22,7 +22,8 @@ public class ContactsDBHelper extends SQLiteOpenHelper{
 
         String CREATE_TABLE = "CREATE TABLE " + DBContract.ContactEntry.TABLE_NAME + "(" +
                                 DBContract.ContactEntry._ID + " INTEGER PRIMARY KEY," + DBContract.ContactEntry.KEY_CONTACT_ID + " TEXT NOT NULL,"
-                                + DBContract.ContactEntry.KEY_NAME + " TEXT NOT NULL," + DBContract.ContactEntry.KEY_PHONE + " TEXT NOT NULL" + ")";
+                                + DBContract.ContactEntry.KEY_NAME + " TEXT NOT NULL," + DBContract.ContactEntry.KEY_PHONE + " TEXT NOT NULL," +
+                                "UNIQUE (" + DBContract.ContactEntry.KEY_CONTACT_ID  + ") ON CONFLICT REPLACE);";
 
         db.execSQL(CREATE_TABLE);
     }

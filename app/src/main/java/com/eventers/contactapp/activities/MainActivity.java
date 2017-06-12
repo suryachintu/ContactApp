@@ -1,4 +1,4 @@
-package com.eventers.contactapp;
+package com.eventers.contactapp.activities;
 
 import android.Manifest;
 import android.content.Intent;
@@ -10,9 +10,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+import com.eventers.contactapp.R;
+
+public class
+MainActivity extends AppCompatActivity {
 
     private static final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 100;
     private boolean flag;
@@ -24,11 +26,10 @@ public class MainActivity extends AppCompatActivity {
 
         final Button getContactsBtn = (Button)findViewById(R.id.get_contacts_btn);
 
+        //check if permission is required to read contacts
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.READ_CONTACTS)
                 != PackageManager.PERMISSION_GRANTED) {
-
-            // No explanation needed, we can request the permission.
 
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.READ_CONTACTS},

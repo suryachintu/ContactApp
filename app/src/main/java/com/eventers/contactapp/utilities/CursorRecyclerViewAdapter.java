@@ -1,17 +1,10 @@
-package com.eventers.contactapp;
+package com.eventers.contactapp.utilities;
 
 import android.content.Context;
 import android.database.Cursor;
 import android.database.DataSetObserver;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 
-/**
- * Written by sam_chordas on 8/11/15.
- * Credit to skyfishjy gist:
- *    https://gist.github.com/skyfishjy/443b7448f59be978bc59
- * for the CursorRecyclerViewApater.java file
- */
 public abstract class CursorRecyclerViewAdapter<VH extends RecyclerView.ViewHolder>
         extends RecyclerView.Adapter<VH>{
     private static final String LOG_TAG = CursorRecyclerViewAdapter.class.getSimpleName();
