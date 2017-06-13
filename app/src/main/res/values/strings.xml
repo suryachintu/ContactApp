@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ContactApp</string>
+    <string name="app_name">Contacts App</string>
     <string name="get_contacts">Get Contacts</string>
     <string name="unknown">Unknown</string>
     <string name="no_number_available">No number available</string>

@@ -8,11 +8,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.eventers.contactapp.R;
 import com.eventers.contactapp.data.ContactsDBHelper;
 import com.eventers.contactapp.data.DBContract;
+
+import static com.eventers.contactapp.activities.ContactsActivity.TWO_PANE;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -30,6 +33,26 @@ public class SelectedConatcsFragment extends Fragment {
         TextView totalContacts = (TextView)view.findViewById(R.id.total_contacts);
 
         TextView selectedContacts = (TextView)view.findViewById(R.id.selected_contacts);
+
+        Button homeBtn = (Button)view.findViewById(R.id.home_btn);
+
+
+        if (getArguments()!= null){
+
+            boolean flag = getArguments().getBoolean(TWO_PANE,false);
+
+            if (flag)
+                homeBtn.setVisibility(View.GONE);
+
+        }else {
+            homeBtn.setVisibility(View.VISIBLE);
+            homeBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    getActivity().finish();
+                }
+            });
+        }
 
         Cursor cursor = getActivity().getContentResolver().query(ContactsContract.Contacts.CONTENT_URI,null,null,null,null);//corresponds to contacts db
 

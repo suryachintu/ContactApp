@@ -11,6 +11,7 @@ import com.eventers.contactapp.fragments.SelectedConatcsFragment;
 
 public class ContactsActivity extends AppCompatActivity implements View.OnClickListener {
 
+    public static final String TWO_PANE = "two_pane";
     boolean mTwoPane;
 
     @Override
@@ -37,7 +38,11 @@ public class ContactsActivity extends AppCompatActivity implements View.OnClickL
 
         if (mTwoPane){
 
-            getSupportFragmentManager().beginTransaction().replace(R.id.detail_container,new SelectedConatcsFragment()).commit();
+            SelectedConatcsFragment fragment = new SelectedConatcsFragment();
+            Bundle bundle = new Bundle();
+            bundle.putBoolean(TWO_PANE,true);
+            fragment.setArguments(bundle);
+            getSupportFragmentManager().beginTransaction().replace(R.id.detail_container,fragment).commit();
 
         }else{
             startActivity(new Intent(ContactsActivity.this,SelectedConatcs.class));
